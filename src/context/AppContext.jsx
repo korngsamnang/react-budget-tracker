@@ -1,8 +1,9 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { v4 as uuid } from "uuid";
 import { useLocalStorage } from "../hooks/useLocalStorage.js";
 
-export const AppContext = createContext({});
+const AppContext = createContext(null);
+
 const initialState = {
     budget: 2500,
     expenses: [
@@ -21,8 +22,8 @@ export const AppProvider = ({ children }) => {
     const [darkMode, setDarkMode] = useLocalStorage(false, "mode");
     const [budget, setBudget] = useState(initialState.budget);
     const [expenses, setExpenses] = useState(initialState.expenses);
-
     const [sortBy, setSortBy] = useState("input");
+    const [search, setSearch] = useState("");
 
     let sortItems;
     if (sortBy === "input") sortItems = expenses;
@@ -35,21 +36,36 @@ export const AppProvider = ({ children }) => {
             .sort((a, b) => a.name.localeCompare(b.name));
     }
 
+    const searchList = sortItems.filter(ex =>
+        ex.name.toLowerCase().includes(search.toLowerCase())
+    );
+
+    const handleDelete = id => {
+        setExpenses(expenses => expenses.filter(ex => ex.id !== id));
+    };
+
     return (
         <AppContext.Provider
             value={{
                 sortBy,
                 setSortBy,
-                sortItems,
                 darkMode,
                 setDarkMode,
                 budget,
                 setBudget,
                 expenses,
                 setExpenses,
+                handleDelete,
+                search,
+                setSearch,
+                expenseList: searchList,
             }}
         >
             {children}
         </AppContext.Provider>
     );
+};
+
+export const useApp = () => {
+    return useContext(AppContext);
 };

@@ -1,14 +1,8 @@
 import { TiDelete } from "react-icons/ti";
-import { useContext } from "react";
-import { AppContext } from "../../context/AppProvider.jsx";
+import { useApp } from "../../context/AppContext.jsx";
 
 const ExpenseRow = ({ expense }) => {
-    const { expenses, setExpenses } = useContext(AppContext);
-
-    const handleDelete = id => {
-        const expensesList = expenses.filter(ex => ex.id !== id);
-        setExpenses(expensesList);
-    };
+    const { handleDelete } = useApp();
 
     return (
         <tr className="border-b">

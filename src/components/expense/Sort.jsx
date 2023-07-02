@@ -1,8 +1,7 @@
-import { useContext } from "react";
-import { AppContext } from "../../context/AppProvider.jsx";
+import { useApp } from "../../context/AppContext.jsx";
 
 const Sort = () => {
-    const { sortBy, setSortBy } = useContext(AppContext);
+    const { sortBy, setSortBy } = useApp();
 
     return (
         <div className="flex gap-1">

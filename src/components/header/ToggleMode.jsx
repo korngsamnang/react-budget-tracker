@@ -1,9 +1,8 @@
 import { CiDark } from "react-icons/ci";
-import { useContext } from "react";
-import { AppContext } from "../../context/AppProvider.jsx";
+import { useApp } from "../../context/AppContext.jsx";
 
 const ToggleMode = () => {
-    const { darkMode, setDarkMode } = useContext(AppContext);
+    const { darkMode, setDarkMode } = useApp();
     return (
         <button
             className={`rounded-lg border ${

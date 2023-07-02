@@ -1,12 +1,11 @@
 import Header from "./components/header/Header.jsx";
 import BudgetInfo from "./components/budget/BudgetInfo.jsx";
 import Expense from "./components/expense/Expense.jsx";
-import { useContext } from "react";
 import AddExpense from "./components/AddExpense/AddExpense.jsx";
-import { AppContext } from "./context/AppProvider.jsx";
+import { useApp } from "./context/AppContext.jsx";
 
 const App = () => {
-    const { darkMode } = useContext(AppContext);
+    const { darkMode } = useApp();
 
     return (
         <main

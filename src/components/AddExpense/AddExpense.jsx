@@ -1,11 +1,12 @@
-import { useContext, useState } from "react";
+import { useApp } from "../../context/AppContext.jsx";
 import { v4 as uuid } from "uuid";
-import { AppContext } from "../../context/AppProvider.jsx";
+import { useState } from "react";
 
 const AddExpense = () => {
-    const { setExpenses } = useContext(AppContext);
+    const { setExpenses } = useApp();
     const [name, setName] = useState("");
     const [cost, setCost] = useState("");
+
     const handleAdd = event => {
         event.preventDefault();
         if (!name || !cost) return;
@@ -18,6 +19,7 @@ const AddExpense = () => {
         setName("");
         setCost("");
     };
+
     return (
         <div className="mt-6">
             <header className="mb-2 text-2xl font-semibold">

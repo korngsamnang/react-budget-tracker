@@ -1,9 +1,9 @@
-import { useContext, useState } from "react";
-import { AppContext } from "../../context/AppProvider.jsx";
+import { useState } from "react";
+import { useApp } from "../../context/AppContext.jsx";
 import Box from "./Box.jsx";
 
 const BudgetInfo = () => {
-    const { budget, expenses, setBudget } = useContext(AppContext);
+    const { budget, expenses, setBudget } = useApp();
     const [editBudgetMode, setEditBudgetMode] = useState(false);
     const [editBudget, setEditBudget] = useState(+budget);
 

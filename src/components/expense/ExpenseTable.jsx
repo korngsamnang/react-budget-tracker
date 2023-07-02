@@ -1,6 +1,8 @@
 import ExpenseRow from "./ExpenseRow.jsx";
+import { useApp } from "../../context/AppContext.jsx";
 
-const ExpenseTable = ({ ExpenseList }) => {
+const ExpenseTable = () => {
+    const { expenseList } = useApp();
     return (
         <>
             <div className="overflow-x-auto">
@@ -20,7 +22,7 @@ const ExpenseTable = ({ ExpenseList }) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {ExpenseList.map(ex => (
+                            {expenseList.map(ex => (
                                 <ExpenseRow key={ex.id} expense={ex} />
                             ))}
                         </tbody>
