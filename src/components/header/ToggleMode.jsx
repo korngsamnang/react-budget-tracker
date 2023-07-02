@@ -8,7 +8,7 @@ const ToggleMode = () => {
             className={`rounded-lg border ${
                 darkMode ? "bg-white" : "bg-slate-700"
             }`}
-            onClick={() => setDarkMode(prev => !prev)}
+            onClick={() => setDarkMode(prevState => !prevState)}
         >
             <CiDark
                 size="1.5em"

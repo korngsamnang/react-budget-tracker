@@ -3,7 +3,7 @@ import { v4 as uuid } from "uuid";
 import { useState } from "react";
 
 const AddExpense = () => {
-    const { setExpenses } = useApp();
+    const { dispatch } = useApp();
     const [name, setName] = useState("");
     const [cost, setCost] = useState("");
 
@@ -15,7 +15,7 @@ const AddExpense = () => {
             name,
             cost: parseFloat(cost),
         };
-        setExpenses(prev => [expense, ...prev]);
+        dispatch({ type: "expenses/add", payload: expense });
         setName("");
         setCost("");
     };

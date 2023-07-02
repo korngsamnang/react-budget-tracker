@@ -3,7 +3,7 @@ import { useApp } from "../../context/AppContext.jsx";
 import Box from "./Box.jsx";
 
 const BudgetInfo = () => {
-    const { budget, expenses, setBudget } = useApp();
+    const { budget, expenses, dispatch } = useApp();
     const [editBudgetMode, setEditBudgetMode] = useState(false);
     const [editBudget, setEditBudget] = useState(+budget);
 
@@ -15,7 +15,7 @@ const BudgetInfo = () => {
             alert("Input some value");
             return;
         }
-        setBudget(editBudget);
+        dispatch({ type: "expenses/budget", payload: editBudget });
         setEditBudgetMode(prevState => !prevState);
     };
 

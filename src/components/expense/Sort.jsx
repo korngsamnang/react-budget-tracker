@@ -1,7 +1,7 @@
 import { useApp } from "../../context/AppContext.jsx";
 
 const Sort = () => {
-    const { sortBy, setSortBy } = useApp();
+    const { dispatch, sortBy } = useApp();
 
     return (
         <div className="flex gap-1">
@@ -11,7 +11,12 @@ const Sort = () => {
                     className="rounded text-black focus:outline-none"
                     id="sortDropdown"
                     value={sortBy}
-                    onChange={e => setSortBy(e.target.value)}
+                    onChange={e =>
+                        dispatch({
+                            type: "expenses/sort",
+                            payload: e.target.value,
+                        })
+                    }
                 >
                     <option value="input">Input</option>
                     <option value="cost">Cost</option>

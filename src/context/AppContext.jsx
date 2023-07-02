@@ -1,29 +1,47 @@
-import { createContext, useContext, useState } from "react";
-import { v4 as uuid } from "uuid";
+import { createContext, useContext, useReducer } from "react";
 import { useLocalStorage } from "../hooks/useLocalStorage.js";
+import { budgetInfo } from "../../data/budgetInfo.js";
 
 const AppContext = createContext(null);
 
-const initialState = {
-    budget: 2500,
-    expenses: [
-        { id: uuid(), name: "Groceries", cost: 300 },
-        { id: uuid(), name: "Dining Out", cost: 200 },
-        { id: uuid(), name: "Rent", cost: 500 },
-        { id: uuid(), name: "Utilities", cost: 100 },
-        {
-            id: uuid(),
-            name: "Entertainment",
-            cost: 100,
-        },
-    ],
+const reducer = (state, action) => {
+    switch (action.type) {
+        case "expenses/sort":
+            return {
+                ...state,
+                sortBy: action.payload,
+            };
+        case "expenses/budget":
+            return { ...state, budget: action.payload };
+        case "expenses/add":
+            return { ...state, expenses: [action.payload, ...state.expenses] };
+        case "expenses/delete":
+            return {
+                ...state,
+                expenses: state.expenses.filter(ex => ex.id !== action.payload),
+            };
+        case "expenses/search":
+            return {
+                ...state,
+                search: action.payload,
+            };
+        default:
+            throw new Error("Unknown action");
+    }
 };
+
+const initialState = {
+    budget: budgetInfo.budget,
+    expenses: budgetInfo.expenses,
+    sortBy: "input",
+    search: "",
+};
+
 export const AppProvider = ({ children }) => {
+    const [state, dispatch] = useReducer(reducer, initialState, undefined);
+    const { budget, expenses, sortBy, search } = state;
+
     const [darkMode, setDarkMode] = useLocalStorage(false, "mode");
-    const [budget, setBudget] = useState(initialState.budget);
-    const [expenses, setExpenses] = useState(initialState.expenses);
-    const [sortBy, setSortBy] = useState("input");
-    const [search, setSearch] = useState("");
 
     let sortItems;
     if (sortBy === "input") sortItems = expenses;
@@ -41,23 +59,23 @@ export const AppProvider = ({ children }) => {
     );
 
     const handleDelete = id => {
-        setExpenses(expenses => expenses.filter(ex => ex.id !== id));
+        dispatch({
+            type: "expenses/delete",
+            payload: id,
+        });
     };
 
     return (
         <AppContext.Provider
             value={{
                 sortBy,
-                setSortBy,
+                dispatch,
                 darkMode,
                 setDarkMode,
                 budget,
-                setBudget,
                 expenses,
-                setExpenses,
                 handleDelete,
                 search,
-                setSearch,
                 expenseList: searchList,
             }}
         >

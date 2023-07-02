@@ -1,7 +1,7 @@
 import { useApp } from "../../context/AppContext.jsx";
 
 const Search = () => {
-    const { search, setSearch } = useApp();
+    const { search, dispatch } = useApp();
 
     return (
         <div className="mb-4 rounded border">
@@ -10,7 +10,12 @@ const Search = () => {
                 type="text"
                 placeholder="Type to search..."
                 value={search}
-                onChange={event => setSearch(event.target.value)}
+                onChange={event =>
+                    dispatch({
+                        type: "expenses/search",
+                        payload: event.target.value,
+                    })
+                }
             />
         </div>
     );
